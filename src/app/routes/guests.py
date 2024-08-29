@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from ..models.db_models import Booking
+from ..models.db_models import Guest
 
 from .. import crud
 from ..database import get_db
@@ -11,9 +11,9 @@ from ..schemas.request_utils import RequestParams
 
 
 router = APIRouter()
-model = Booking
+model = Guest
 
-@router.post("/booking", response_model=schemas.RespGetAllModel)
+@router.post("/guest", response_model=schemas.RespGetAllModel)
 def get_all(params: RequestParams, db: Session = Depends
 (get_db)):
     """
@@ -31,8 +31,8 @@ def get_all(params: RequestParams, db: Session = Depends
     result = crud.get_all(db, model, params)
     return {"data": result, "nb": len(result)}
 
-@router.post("/booking/{id}", response_model=schemas.RespGetOneModel)
-def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
+@router.post("/guest/{id}", response_model=schemas.RespGetOneModel)
+def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
     """
     GET ONE BY ID
     """

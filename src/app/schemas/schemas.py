@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+from typing import List, Text
 from pydantic import BaseModel
 
 class BookingModel(BaseModel):
@@ -18,6 +19,7 @@ class CommentModel(BaseModel):
     ref_guest_id: str
     comment_date: date
     comment_rating: int
+    comment_text: Text
     room_number: int
 
 class GuestModel(BaseModel):
@@ -26,8 +28,8 @@ class GuestModel(BaseModel):
     last_name: str
     age: int
     country: str
-    phone_number: str
-    email: str
+    phone_number: str|None
+    email: str|None
     gold_card_member: bool
 
 class InvoiceModel(BaseModel):
@@ -46,3 +48,14 @@ class RoomModel(BaseModel):
     room_type: str
     price_per_night: Decimal
     availability: bool
+
+
+# Response models #
+
+class RespGetAllModel(BaseModel):
+    data: List[BookingModel|CommentModel|GuestModel|InvoiceModel|RoomModel|None]
+    nb: int
+
+class RespGetOneModel(BaseModel):
+    data: BookingModel|CommentModel|GuestModel|InvoiceModel|RoomModel|None
+    nb: int

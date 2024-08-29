@@ -38,7 +38,7 @@ class Comment(Base):
 class Guest(Base):
     __tablename__ = 'guest'
 
-    customer_id = Column(String(40), primary_key=True, nullable=False)
+    guest_id = Column(String(40), primary_key=True, nullable=False)
     first_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=True)
     age = Column(Integer, nullable=True)
@@ -53,7 +53,7 @@ class Invoice(Base):
 
     invoice_id = Column(Integer, primary_key=True, autoincrement=True)
     invoice_date = Column(Date, nullable=True)
-    ref_customer_id = Column(String(40), nullable=False)
+    ref_guest_id = Column(String(40), nullable=False)
     total_amount = Column(DECIMAL(15,2), nullable=True)
     payment_method = Column(String(13), nullable=True)
     due_date = Column(Date, nullable=True)
@@ -68,7 +68,7 @@ class Invoice(Base):
 class Room(Base):
     __tablename__ = 'room'
 
-    room_number = Column(Integer, primary_key=True, autoincrement=True)
+    room_id = Column(Integer, primary_key=True, autoincrement=True)
     room_type = Column(String(6), nullable=True)
     price_per_night = Column(DECIMAL(15,2), nullable=True)
     availability = Column(Boolean, nullable=True)

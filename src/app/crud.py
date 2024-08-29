@@ -35,7 +35,7 @@ def get_all(db: Session, model: BaseModel, params: RequestParams):
     query =  query.offset(skip + (limit * (page_nb - 1))).limit(limit).all()
     return query
 
-def get_one(id: int, db: Session, model: BaseModel, params: RequestParams):
+def get_one(id: int|str, db: Session, model: BaseModel, params: RequestParams):
     skip, limit, page_nb, filters = params.skip, params.limit, params.page_nb, params.filters
     if filters != []:
         raise HTTPException(statusCode=405, detail={"msg": "No filter allowed for get_by_id Request"})
