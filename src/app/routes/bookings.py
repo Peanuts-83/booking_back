@@ -2,18 +2,20 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from ..schemas.create import BookingCreateSchema
+from ..schemas.response import RespCreateSchema, RespGetAllSchema, RespGetOneSchema
 from ..models.db_models import Booking
 
 from .. import crud
 from ..database import get_db
-from ..schemas import schemas
+from ..schemas import schema
 from ..schemas.request_utils import RequestParams
 
 
 router = APIRouter()
 model = Booking
 
-@router.post("/booking", response_model=schemas.RespGetAllModel)
+@router.post("/booking", response_model=RespGetAllSchema)
 def get_all(params: RequestParams, db: Session = Depends
 (get_db)):
     """
@@ -31,10 +33,19 @@ def get_all(params: RequestParams, db: Session = Depends
     result = crud.get_all(db, model, params)
     return {"data": result, "nb": len(result)}
 
-@router.post("/booking/{id}", response_model=schemas.RespGetOneModel)
+@router.post("/booking/get/{id}", response_model=RespGetOneSchema)
 def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
     """
-    GET ONE BY ID
+    GET ONE by id
     """
     result = crud.get_one(id, db, model, params)
     return {"data": result, "nb": len([result])}
+
+
+@router.post("/booking/add", response_model=RespCreateSchema)
+def create_one(schema: BookingCreateSchema, db: Session = Depends(get_db)):
+    """
+    CREATE new item > returns new item id
+    """
+    result = crud.create_one(db, model, schema)
+    return {"id": getattr(result, model.__tablename__ + '_id')}
