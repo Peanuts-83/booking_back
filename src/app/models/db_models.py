@@ -29,7 +29,7 @@ class Comment(Base):
     comment_date = Column(Date, nullable=False)
     comment_rating = Column(Integer, nullable=False)
     comment_text = Column(Text, nullable=True)
-    room_number = Column(Integer, nullable=False)
+    ref_room_id = Column(Integer, ForeignKey('room.room_id'), nullable=True)
 
     guest = relationship("Guest", back_populates="comment")
 
@@ -77,3 +77,6 @@ class Room(Base):
 
     booking = relationship('Booking', back_populates='room')
     invoice = relationship('Invoice', back_populates='room')
+
+
+Models = [Booking, Comment, Guest, Invoice, Room]

@@ -1,10 +1,20 @@
 from typing import Any, List
 from fastapi import HTTPException, Query
 from pydantic import BaseModel
+from sqlalchemy import event
 from sqlalchemy.orm import Session
 
-from .schemas.request_utils import FilterParams, RequestParams
+from .models.db_utils import validate_foreign_keys_before_insert
 
+from .schemas.request_utils import FilterParams, RequestParams
+from .models.db_models import Booking, Comment, Guest, Invoice, Room
+
+# attach event listeners to each Model for FK validation
+event.listen(Booking, 'before_insert', validate_foreign_keys_before_insert)
+event.listen(Comment, 'before_insert', validate_foreign_keys_before_insert)
+event.listen(Guest, 'before_insert', validate_foreign_keys_before_insert)
+event.listen(Invoice, 'before_insert', validate_foreign_keys_before_insert)
+event.listen(Room, 'before_insert', validate_foreign_keys_before_insert)
 
 def apply_filters(query: Query, model: Any, filters: List[FilterParams]) -> Query:
     """

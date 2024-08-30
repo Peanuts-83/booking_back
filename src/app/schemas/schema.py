@@ -20,7 +20,7 @@ class CommentSchema(BaseModel):
     comment_date: date
     comment_rating: int
     comment_text: Text
-    room_number: int
+    ref_room_id: int
 
 class GuestSchema(BaseModel):
     guest_id: str
