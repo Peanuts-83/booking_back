@@ -7,13 +7,13 @@ from ..database import Base
 class Booking(Base):
     __tablename__ = 'booking'
     booking_id = Column(Integer, primary_key=True, autoincrement=True)
-    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=False)
+    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=True)
     check_in_date = Column(Date, nullable=True)
     check_out_date = Column(Date, nullable=True)
     num_guests = Column(Integer, nullable=True)
     payment_method = Column(String(11), nullable=True)
     is_checked_in = Column(Boolean, nullable=True)
-    ref_room_id = Column(Integer, ForeignKey('room.room_id'), nullable=False)
+    ref_room_id = Column(Integer, ForeignKey('room.room_id'), nullable=True)
     ref_invoice_id = Column(Integer, ForeignKey('invoice.invoice_id'), nullable=True)
 
     # Relationships (optional, but useful for ORM)
@@ -25,7 +25,7 @@ class Booking(Base):
 class Comment(Base):
     __tablename__ = 'comment'
     comment_id = Column(Integer, primary_key=True, autoincrement=True)
-    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=False)
+    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=True)
     comment_date = Column(Date, nullable=False)
     comment_rating = Column(Integer, nullable=False)
     comment_text = Column(Text, nullable=True)
@@ -54,13 +54,13 @@ class Invoice(Base):
     __tablename__ = 'invoice'
     invoice_id = Column(Integer, primary_key=True, autoincrement=True)
     invoice_date = Column(Date, nullable=True)
-    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=False)
+    ref_guest_id = Column(String(40), ForeignKey('guest.guest_id'), nullable=True)
     total_amount = Column(DECIMAL(15,2), nullable=True)
     payment_method = Column(String(13), nullable=True)
     due_date = Column(Date, nullable=True)
     item_description = Column(Text, nullable=True)
     quantity = Column(Integer, nullable=True)
-    ref_room_id=  Column(Integer, ForeignKey('room.room_id'), nullable=False)
+    ref_room_id=  Column(Integer, ForeignKey('room.room_id'), nullable=True)
 
     guest = relationship("Guest", back_populates="invoice")
     room = relationship("Room", back_populates="invoice")
