@@ -47,5 +47,8 @@ def create_one(schema: BookingCreateSchema, db: Session = Depends(get_db)):
     """
     CREATE new item > returns new item id
     """
+    # Check for foreign keys validity
+
+
     result = crud.create_one(db, model, schema)
     return {"id": getattr(result, model.__tablename__ + '_id')}

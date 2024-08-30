@@ -53,7 +53,7 @@ def get_one(id: int|str, db: Session, model: Any, params: RequestParams):
 # CREATE routes #
 
 def create_one(db: Session, model: Any, schema: BaseModel):
-    new_object = model(**schema.dict())
+    new_object = model(**schema.model_dump())
     db.add(new_object)
     db.commit()
     db.refresh(new_object)
