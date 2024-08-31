@@ -9,14 +9,6 @@ engine = create_engine(
     DB_URL
 )
 
-# Test the connection
-try:
-    with engine.connect() as connection:
-        result = connection.execute("SELECT 1")
-        print(result.fetchone())
-except Exception as e:
-    print(f"Error: {e}")
-
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

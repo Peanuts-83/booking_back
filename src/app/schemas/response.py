@@ -14,3 +14,7 @@ class RespGetOneSchema(BaseModel):
 
 class RespCreateSchema(BaseModel):
     id: int|str
+
+class RespUpdateSchema(BaseModel):
+    data: BookingSchema|CommentSchema|GuestSchema|InvoiceSchema|RoomSchema|None
+    nb: int

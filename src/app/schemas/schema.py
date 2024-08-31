@@ -5,13 +5,13 @@ from pydantic import BaseModel
 
 class BookingSchema(BaseModel):
     booking_id: int
-    ref_guest_id: str
+    ref_guest_id: str | None
     check_in_date: date | None
     check_out_date: date | None
     num_guests: int | None
     payment_method: str | None
     is_checked_in: bool | None
-    ref_room_id: int
+    ref_room_id: int | None
     ref_invoice_id: int | None
 
 class CommentSchema(BaseModel):

@@ -2,8 +2,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from ..schemas.update import BookingUpdSchema
+
 from ..schemas.create import BookingCreateSchema
-from ..schemas.response import RespCreateSchema, RespGetAllSchema, RespGetOneSchema
+from ..schemas.response import RespCreateSchema, RespGetAllSchema, RespGetOneSchema, RespUpdateSchema
 from ..models.db_models import Booking
 
 from .. import crud
@@ -43,12 +45,19 @@ def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
 
 
 @router.post("/booking/add", response_model=RespCreateSchema)
-def create_one(schema: BookingCreateSchema, db: Session = Depends(get_db)):
+def create_one(bean: BookingCreateSchema, db: Session = Depends(get_db)):
     """
     CREATE new item > returns new item id
     """
-    # Check for foreign keys validity
-
-
-    result = crud.create_one(db, model, schema)
+    result = crud.create_one(db, model, bean)
     return {"id": getattr(result, model.__tablename__ + '_id')}
+
+@router.put("/booking/{id}", response_model=RespUpdateSchema)
+def update_one(id: int, bean: BookingUpdSchema, db: Session = Depends(get_db)):
+    """
+    UPDATE item by id
+
+    Bean.data contains only modified pairs [key: value]
+    """
+    result = crud.update_one(id, db, model, bean)
+    return {"data": result, "nb": len([result])}
