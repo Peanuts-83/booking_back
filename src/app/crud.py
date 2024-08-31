@@ -37,13 +37,13 @@ def apply_filters(query: Query, model: Any, filters: List[FilterParams]) -> Quer
                 query = query.filter(~column.in_(filter_param.value))
             else:
                 query = query.filter(column != (filter_param.value))
-        if filter_param.operator == '>':
+        if filter_param.operator == '>' and not isinstance(filter_param.value, list):
             query = query.filter(column > filter_param.value)
-        if filter_param.operator == '>=':
+        if filter_param.operator == '>=' and not isinstance(filter_param.value, list):
             query = query.filter(column >= filter_param.value)
-        if filter_param.operator == '<':
+        if filter_param.operator == '<' and not isinstance(filter_param.value, list):
             query = query.filter(column < filter_param.value)
-        if filter_param.operator == '<=':
+        if filter_param.operator == '<=' and not isinstance(filter_param.value, list):
             query = query.filter(column <= filter_param.value)
     return query
 
