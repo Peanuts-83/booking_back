@@ -2,7 +2,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from ..schemas.response import RespGetAllSchema, RespGetOneSchema
+from ..schemas.update import RoomUpdSchema
+from ..schemas.create import RoomCreateSchema
+from ..schemas.response import RespCreateSchema, RespGetAllSchema, RespGetOneSchema, RespUpdateSchema
 from ..models.db_models import Room
 
 from .. import crud
@@ -38,4 +40,23 @@ def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
     GET ONE BY ID
     """
     result = crud.get_one(id, db, model, params)
+    return {"data": result, "nb": len([result])}
+
+
+@router.post("/room/add", response_model=RespCreateSchema)
+def create_one(bean: RoomCreateSchema, db: Session = Depends(get_db)):
+    """
+    CREATE new item > returns new item id
+    """
+    result = crud.create_one(db, model, bean)
+    return {"id": getattr(result, model.__tablename__ + '_id')}
+
+@router.put("/room/{id}", response_model=RespUpdateSchema)
+def update_one(id: int, bean: RoomUpdSchema, db: Session = Depends(get_db)):
+    """
+    UPDATE item by id
+
+    Bean.data contains only modified pairs [key: value]
+    """
+    result = crud.update_one(id, db, model, bean)
     return {"data": result, "nb": len([result])}

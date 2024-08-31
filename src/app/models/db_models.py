@@ -1,4 +1,5 @@
-from sqlalchemy import DECIMAL, Boolean, Column, Integer, String, Date, ForeignKey, Text
+from uuid import uuid4
+from sqlalchemy import DECIMAL, Boolean, Column, Integer, String, Date, ForeignKey, Text, func
 from sqlalchemy.orm import relationship
 
 from ..database import Base
@@ -11,7 +12,6 @@ class Booking(Base):
     check_in_date = Column(Date, nullable=True)
     check_out_date = Column(Date, nullable=True)
     num_guests = Column(Integer, nullable=True)
-    payment_method = Column(String(11), nullable=True)
     is_checked_in = Column(Boolean, nullable=True)
     ref_room_id = Column(Integer, ForeignKey('room.room_id'), nullable=True)
     ref_invoice_id = Column(Integer, ForeignKey('invoice.invoice_id'), nullable=True)
@@ -36,7 +36,7 @@ class Comment(Base):
 
 class Guest(Base):
     __tablename__ = 'guest'
-    guest_id = Column(String(40), primary_key=True, nullable=False)
+    guest_id = Column(String(40), primary_key=True, default=lambda: str(uuid4()))
     first_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=True)
     age = Column(Integer, nullable=True)
