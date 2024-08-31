@@ -1,3 +1,4 @@
+import logging
 from typing import Any, List
 from fastapi import HTTPException, Query
 from pydantic import BaseModel
@@ -5,9 +6,12 @@ from sqlalchemy import event
 from sqlalchemy.orm import Session
 
 from .models.db_utils import validate_foreign_keys_before_insert
-
 from .schemas.request_utils import FilterParams, RequestParams
-from .models.db_models import Booking, Comment, Guest, Invoice, Models, Room
+from .models.db_models import Models
+
+#  trace SQL requests - deactivate if not needed
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 # attach event listeners to each Model for FK validation
 for l_model in Models:
@@ -24,9 +28,15 @@ def apply_filters(query: Query, model: Any, filters: List[FilterParams]) -> Quer
     for filter_param in filters:
         column = getattr(model, filter_param.key)
         if filter_param.operator == '==':
-            query = query.filter(column.like(filter_param.value))
+            if isinstance(filter_param.value, list):
+                query = query.filter(column.in_(filter_param.value))
+            else:
+                query = query.filter(column == (filter_param.value))
         if filter_param.operator == '!=':
-            query = query.filter(~column.like(filter_param.value))
+            if isinstance(filter_param.value, list):
+                query = query.filter(~column.in_(filter_param.value))
+            else:
+                query = query.filter(column != (filter_param.value))
         if filter_param.operator == '>':
             query = query.filter(column > filter_param.value)
         if filter_param.operator == '>=':
