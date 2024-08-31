@@ -1,3 +1,11 @@
+[![FastApi](https://img.shields.io/badge/PythonBackEnd-FastApi-info?logo=fastapi&logoColor=white&color=009688)](https://fastapi.tiangolo.com/)
+[![Pydantic](https://img.shields.io/badge/DataValidation-Pydantic-info?logo=pydantic&logoColor=white&color=E92063)](https://docs.pydantic.dev/latest/)
+[![Uvicorn](https://img.shields.io/badge/ASGIWebServer-Uvicorn-info?logo=gunicorn&logoColor=white&color=499848)](https://www.uvicorn.org/)
+[![Starlette](https://img.shields.io/badge/ASGIWebServer-Starlette-info?logo=&logoColor=white&color=4285F5)](https://www.starlette.io/)
+[![SQLAlchemy](https://img.shields.io/badge/ORM-SQLAlchemy-info?logo=sqlalchemy&logoColor=white&color=D71F00)](https://docs.pydantic.dev/latest/)
+[![MariaDB](https://img.shields.io/badge/Database-MariaDB-info?logo=mariadb&logoColor=white&color=003545)](https://mariadb.org/)
+
+
 # Booking back-end - FastApi (python)
 
 Back-end part of Booking app project, using FastApi (python). This is an experimental managment application for hotel, with booking, invoice and customer modules.
@@ -16,13 +24,13 @@ Final project should be packed in a Docker public image in order to be displayed
     * Find the right env : ```conda env list```
     * Activate it : ```conda activate my_env```
 * add files :
-    * requirements.txt
+    * requirements.txt (I prefer **pipreqs** to pip freeze that gets ALL packages in env)
     * environment.yml
     * main.py
 
 ```bash
 pip install "fastapi[all]" databases aiomysql sqlalchemy
-ip freeze > requirements.txt
+pipreqs .
 ```
 
 ### Install requirements for this project
