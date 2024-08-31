@@ -8,7 +8,7 @@ Final project should be packed in a Docker public image in order to be displayed
 
 ## Setup procedure
 
-*requirements: [pip](https://pypi.org/) & [python](https://www.python.org/downloads/)
+*requirements: [pip](https://pypi.org/) & [python](https://www.python.org/downloads/)*
 
 ### Install new project from scratch
 
@@ -65,10 +65,10 @@ I used [mockaroo.com](http://www.mockaroo.com) to fill the database **mydatabase
 
 ## Run project
 
-Navigate to the directory where your main.py file is located and run:
+Navigate to the directory where your main.py file is located (remember python path is done by '.' and not '/') and run:
 
 ```bash
-uvicorn main:app --reload
+uvicorn src.main.main:app --reload
 ```
 
 **--reload** option is a watch mode that reloads app at each change in the source code.
