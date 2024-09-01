@@ -15,6 +15,7 @@ from ..schemas.request_utils import RequestParams
 
 router = APIRouter()
 model = Guest
+baseBean = schema.GuestSchema
 
 @router.post("/guest", response_model=RespGetAllSchema)
 def get_all(params: RequestParams, db: Session = Depends
@@ -31,7 +32,7 @@ def get_all(params: RequestParams, db: Session = Depends
         * values: List[Any]
         * operator: str
     """
-    result = crud.get_all(db, model, params)
+    result = crud.get_all(db, model, params, baseBean)
     return {"data": result.data, "metas": result.metas, "nb": len(result)}
 
 @router.post("/guest/get/{id}", response_model=RespGetOneSchema)
@@ -39,7 +40,7 @@ def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
     """
     GET ONE BY ID
     """
-    result = crud.get_one(id, db, model, params)
+    result = crud.get_one(id, db, model, params, baseBean)
     return {"data": result.data, "metas": result.metas, "nb": len(result)}
 
 
