@@ -33,15 +33,15 @@ def get_all(params: RequestParams, db: Session = Depends
         * operator: str
     """
     result = crud.get_all(db, model, params, baseBean)
-    return {"data": result['data'], "metas": result['metas'], "nb": len(result)}
+    return {"data": result['data'], "metas": result['metas'], "nb": len(result['data'])}
 
-@router.post("/invoice/get/{id}", response_model=RespGetOneSchema)
-def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
+@router.post("/guest/get/{id}", response_model=RespGetOneSchema)
+def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
     """
     GET ONE BY ID
     """
     result = crud.get_one(id, db, model, params, baseBean)
-    return {"data": result['data'], "metas": result['metas'], "nb": len(result)}
+    return {"data": result['data'], "metas": result['metas'], "nb": len([result['data']])}
 
 
 @router.post("/invoice/add", response_model=RespCreateSchema)

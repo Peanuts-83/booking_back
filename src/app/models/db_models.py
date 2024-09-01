@@ -17,9 +17,9 @@ class Booking(Base):
     ref_invoice_id = Column(Integer, ForeignKey('invoice.invoice_id'), nullable=True)
 
     # Relationships (optional, but useful for ORM)
-    guest = relationship("Guest", back_populates="booking")
-    room = relationship("Room", back_populates="booking")
-    invoice = relationship("Invoice", back_populates="booking")
+    # guest = relationship("Guest", back_populates="booking")
+    # room = relationship("Room", back_populates="booking")
+    # invoice = relationship("Invoice", back_populates="booking")
 
 
 class Comment(Base):
@@ -31,7 +31,7 @@ class Comment(Base):
     comment_text = Column(Text, nullable=True)
     ref_room_id = Column(Integer, ForeignKey('room.room_id'), nullable=True)
 
-    guest = relationship("Guest", back_populates="comment")
+    # guest = relationship("Guest", back_populates="comment")
 
 
 class Guest(Base):
@@ -45,9 +45,9 @@ class Guest(Base):
     email = Column(String(50), nullable=True)
     gold_card_member = Column(Boolean, nullable=True)
 
-    booking = relationship('Booking', back_populates='guest')
-    invoice = relationship('Invoice', back_populates='guest')
-    comment = relationship('Comment', back_populates='guest')
+    # booking = relationship('Booking', back_populates='guest')
+    # invoice = relationship('Invoice', back_populates='guest')
+    # comment = relationship('Comment', back_populates='guest')
 
 
 class Invoice(Base):
@@ -62,9 +62,9 @@ class Invoice(Base):
     quantity = Column(Integer, nullable=True)
     ref_room_id=  Column(Integer, ForeignKey('room.room_id'), nullable=True)
 
-    guest = relationship("Guest", back_populates="invoice")
-    room = relationship("Room", back_populates="invoice")
-    booking = relationship('Booking', back_populates='invoice')
+    # ref_guest = relationship("Guest", back_populates="invoice")
+    # room = relationship("Room", back_populates="invoice")
+    # booking = relationship('Booking', back_populates='invoice')
 
 
 
@@ -75,8 +75,8 @@ class Room(Base):
     price_per_night = Column(DECIMAL(15,2), nullable=True)
     availability = Column(Boolean, nullable=True)
 
-    booking = relationship('Booking', back_populates='room')
-    invoice = relationship('Invoice', back_populates='room')
+    # booking = relationship('Booking', back_populates='room')
+    # invoice = relationship('Invoice', back_populates='room')
 
 
 Models = [Booking, Comment, Guest, Invoice, Room]
