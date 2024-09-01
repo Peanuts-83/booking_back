@@ -1,15 +1,18 @@
 
 BO_LIBELLES = {
     "booking_id": "ID",
-    "ref_guest_id": "Client",
-    "check_in_date": "Check in",
-    "check_out_date": "Check out",
-    "num_guests": "Nbre de clients",
-    "is_checked_in": "Est checked in",
-    "ref_room_id": "Chambre",
-    "ref_invoice_id": "Facture",
+    "ref_guest_id": "client",
+    "check_in_date": "check in",
+    "check_out_date": "check out",
+    "num_guests": "nbre de clients",
+    "is_checked_in": "est checked in",
+    "ref_room_id": "chambre",
+    "ref_invoice_id": "facture",
 }
 
 
 def get_lib(name: str):
-    return BO_LIBELLES[name]
+    try:
+        return BO_LIBELLES[name]
+    except Exception:
+        return 'libellé manquant'
