@@ -64,10 +64,10 @@ def get_one(id: int|str, db: Session, model: Any, params: RequestParams, bean: B
     if filters != []:
         raise HTTPException(statusCode=405, detail={"msg": "No filter allowed for get_by_id Request"})
     # get columnObject to provide to filter()
-    item_id = getattr(model, model.__tablename__ + '_id')
+    item_id = getattr(model, 'id')
     query =  db.query(model).filter(item_id == id).first()
     if query is None:
-        raise HTTPException(status_code=404, detail={"msg": "id not found", "key": model.__tablename__ + '_id', "value": id})
+        raise HTTPException(status_code=404, detail={"msg": "id not found", "key": model.__tablename__ + '.id', "value": id})
     metas = set_metas(bean)
     return {"data": query, "metas": metas}
 
@@ -86,11 +86,11 @@ def create_one(db: Session, model: Any, bean: BaseModel):
 
 def update_one(id: int|str, db: Session, model: Any, bean: BaseModel):
     # get columnObject to provide to filter()
-    item_id = getattr(model, model.__tablename__ + '_id')
+    item_id = getattr(model, 'id')
     #  retrieve existing item
     item = db.query(model).filter(item_id == id).first()
     if not item:
-        raise HTTPException(status_code=404, detail={"msg": "id not found", "key": model.__tablename__ + '_id', "value": id})
+        raise HTTPException(status_code=404, detail={"msg": "id not found", "key": model.__tablename__ + '.id', "value": id})
     #  update defined values
     for field, value in bean.data.model_dump().items():
         if value != None:

@@ -10,9 +10,9 @@ def validate_foreign_keys_before_insert(mapper, connection, target):
     """
     session = Session(bind=connection)
     for prop in target.__table__.columns:
-        if re.search(r"ref_(\w+)_id", prop.name):
-            modelName = re.match(r"ref_(\w+)_id", prop.name).group(1)
+        if re.search(r"(\w+)_id", prop.name):
+            modelName = re.match(r"(\w+)_id", prop.name).group(1)
             model = [m for m in Models if m.__name__ == modelName.capitalize()][0]
             #  request DB for <modelName>_id value
-            if not session.query(model).filter(getattr(model, modelName + '_id') == getattr(target, prop.name)).first():
-                raise HTTPException(status_code=409, detail={"msg": "undefined Foreign Key reference", "key": modelName + '_id', "value": getattr(target, prop.name)})
+            if not session.query(model).filter(getattr(model, 'id') == getattr(target, prop.name)).first():
+                raise HTTPException(status_code=409, detail={"msg": "undefined Foreign Key reference", "key": modelName + '.id', "value": getattr(target, prop.name)})

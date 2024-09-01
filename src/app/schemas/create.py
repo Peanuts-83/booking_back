@@ -8,13 +8,13 @@ from pydantic import BaseModel, Field, validator
 
 # TODO: remove payment_method (reserved to invoice table!)
 class BookingCreate(BaseModel):
-    ref_guest_id: Optional[str] = Field(max_length=40, min_length=36)
+    guest_id: Optional[str] = Field(max_length=40, min_length=36)
     check_in_date: Optional[date] = Field()
     check_out_date: Optional[date] = Field()
     num_guests: Optional[int] = Field(ge=0)
     is_checked_in: Optional[bool] = Field()
-    ref_room_id: Optional[int] = Field(ge=1, le=55)
-    ref_invoice_id: Optional[int] = Field()
+    room_id: Optional[int] = Field(ge=1, le=55)
+    invoice_id: Optional[int] = Field()
 
     @validator('check_out_date')
     def check_date_validity(cls, v, values):
@@ -27,11 +27,11 @@ class BookingCreateSchema(BaseModel):
 
 
 class CommentCreate(BaseModel):
-    ref_guest_id: Optional[str] = Field()
+    guest_id: Optional[str] = Field()
     comment_date: Optional[date] = Field()
     comment_rating: Optional[int] = Field(ge=1, le=5)
     comment_text: Optional[Text] = Field(max_length=500)
-    ref_room_id: Optional[int] = Field(ge=1, le=55)
+    room_id: Optional[int] = Field(ge=1, le=55)
 class CommentCreateSchema(BaseModel):
     data: CommentCreate
 
@@ -52,13 +52,13 @@ class GuestCreateSchema(BaseModel):
 
 class InvoiceCreate(BaseModel):
     invoice_date: Optional[date] = Field()
-    ref_guest_id: Optional[str] = Field()
+    guest_id: Optional[str] = Field()
     total_amount: Optional[Decimal] = Field()
     payment_method: Optional[str] = Field(pattern="^(PayPal|Bank Tranfer|Cash|Credit Card)$")
     due_date: Optional[date] = Field()
     item_description: Optional[str] = Field(max_length=200)
     quantity: Optional[int] = Field()
-    ref_room_id: Optional[int] = Field(ge=1, le=55)
+    room_id: Optional[int] = Field(ge=1, le=55)
 class InvoiceCreateSchema(BaseModel):
     data: InvoiceCreate
 

@@ -49,7 +49,7 @@ def create_one(bean: GuestCreateSchema, db: Session = Depends(get_db)):
     CREATE new item > returns new item id
     """
     result = crud.create_one(db, model, bean)
-    return {"id": getattr(result, model.__tablename__ + '_id')}
+    return {"id": getattr(result, 'id')}
 
 @router.put("/guest/{id}", response_model=RespUpdateSchema)
 def update_one(id: int, bean: GuestUpdSchema, db: Session = Depends(get_db)):

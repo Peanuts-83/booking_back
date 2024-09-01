@@ -6,13 +6,13 @@ from pydantic import BaseModel, Field, ValidationError, constr, validator
 
 
 class BookingUpdate(BaseModel):
-    ref_guest_id: Optional[str] = Field(default=None, max_length=40, min_length=36)
+    guest_id: Optional[str] = Field(default=None, max_length=40, min_length=36)
     check_in_date: Optional[date] = Field(default=None)
     check_out_date: Optional[date] = Field(default=None)
     num_guests: Optional[int] = Field(default=None, ge=0)
     is_checked_in: Optional[bool] = Field(default=None)
-    ref_room_id: Optional[int] = Field(default=None, ge=1, le=55)
-    ref_invoice_id: Optional[int] = Field(default=None)
+    room_id: Optional[int] = Field(default=None, ge=1, le=55)
+    invoice_id: Optional[int] = Field(default=None)
 
     @validator('check_out_date')
     def check_date_validity(cls, v, values):
@@ -27,11 +27,11 @@ class BookingUpdSchema(BaseModel):
 
 
 class CommentUpdate(BaseModel):
-    ref_guest_id: Optional[str] = Field(default=None)
+    guest_id: Optional[str] = Field(default=None)
     comment_date: Optional[date] = Field(default=None)
     comment_rating: Optional[int] = Field(default=None, ge=1, le=5)
     comment_text: Optional[Text] = Field(default=None, max_length=500)
-    ref_room_id: Optional[int] = Field(default=None, ge=1, le=55)
+    room_id: Optional[int] = Field(default=None, ge=1, le=55)
 class CommentUpdSchema(BaseModel):
     data: CommentUpdate
 
@@ -52,13 +52,13 @@ class GuestUpdSchema(BaseModel):
 
 class InvoiceUpdate(BaseModel):
     invoice_date: Optional[date] = Field(default=None)
-    ref_guest_id: Optional[str] = Field(default=None)
+    guest_id: Optional[str] = Field(default=None)
     total_amount: Optional[Decimal] = Field(default=None)
     payment_method: Optional[str] = Field(default=None, pattern="^(PayPal|Bank Tranfer|Cash|Credit Card)$")
     due_date: Optional[date] = Field(default=None)
     item_description: Optional[str] = Field(default=None, max_length=200)
     quantity: Optional[int] = Field(default=None)
-    ref_room_id: Optional[int] = Field(default=None, ge=1, le=55)
+    room_id: Optional[int] = Field(default=None, ge=1, le=55)
 class InvoiceUpdSchema(BaseModel):
     data: InvoiceUpdate
 

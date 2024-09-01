@@ -35,7 +35,7 @@ def get_all(params: RequestParams, db: Session = Depends
     result = crud.get_all(db, model, params, baseBean)
     return {"data": result['data'], "metas": result['metas'], "nb": len(result['data'])}
 
-@router.post("/guest/get/{id}", response_model=RespGetOneSchema)
+@router.post("/room/get/{id}", response_model=RespGetOneSchema)
 def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
     """
     GET ONE BY ID
@@ -50,7 +50,7 @@ def create_one(bean: RoomCreateSchema, db: Session = Depends(get_db)):
     CREATE new item > returns new item id
     """
     result = crud.create_one(db, model, bean)
-    return {"id": getattr(result, model.__tablename__ + '_id')}
+    return {"id": getattr(result, 'id')}
 
 @router.put("/room/{id}", response_model=RespUpdateSchema)
 def update_one(id: int, bean: RoomUpdSchema, db: Session = Depends(get_db)):
