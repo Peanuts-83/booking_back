@@ -1,4 +1,5 @@
 
+from email.mime import base
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -16,10 +17,10 @@ from ..schemas.request_utils import RequestParams
 
 router = APIRouter()
 model = Booking
+baseBean = schema.BookingSchema
 
 @router.post("/booking", response_model=RespGetAllSchema)
-def get_all(params: RequestParams, db: Session = Depends
-(get_db)):
+def get_all(params: RequestParams, db: Session = Depends(get_db)):
     """
     GET LIST
 
@@ -32,16 +33,16 @@ def get_all(params: RequestParams, db: Session = Depends
         * values: List[Any]
         * operator: str
     """
-    result = crud.get_all(db, model, params)
-    return {"data": result, "nb": len(result)}
+    result = crud.get_all(db, model, params, baseBean)
+    return {"data": result['data'], "metas": result['metas'], "nb": len(result)}
 
 @router.post("/booking/get/{id}", response_model=RespGetOneSchema)
 def get_one(id: int, params: RequestParams, db: Session = Depends(get_db)):
     """
     GET ONE by id
     """
-    result = crud.get_one(id, db, model, params)
-    return {"data": result, "nb": len([result])}
+    result = crud.get_one(id, db, model, params, baseBean)
+    return {"data": result['data'], "metas": result['metas'], "nb": len([result])}
 
 
 @router.post("/booking/add", response_model=RespCreateSchema)

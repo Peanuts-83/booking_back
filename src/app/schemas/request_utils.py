@@ -1,6 +1,7 @@
 
 from typing import Any, List
 from pydantic import BaseModel
+from sqlalchemy import Boolean
 
 class FilterParams(BaseModel):
     key: str

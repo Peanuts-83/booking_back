@@ -32,7 +32,7 @@ def get_all(params: RequestParams, db: Session = Depends
         * operator: str
     """
     result = crud.get_all(db, model, params)
-    return {"data": result, "nb": len(result)}
+    return {"data": result.data, "metas": result.metas, "nb": len(result)}
 
 @router.post("/guest/get/{id}", response_model=RespGetOneSchema)
 def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
@@ -40,7 +40,7 @@ def get_one(id: str, params: RequestParams, db: Session = Depends(get_db)):
     GET ONE BY ID
     """
     result = crud.get_one(id, db, model, params)
-    return {"data": result, "nb": len([result])}
+    return {"data": result.data, "metas": result.metas, "nb": len(result)}
 
 
 @router.post("/guest/add", response_model=RespCreateSchema)
